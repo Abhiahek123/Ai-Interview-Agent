@@ -1,4 +1,5 @@
 import React from 'react'
+import Auth from "./pages/Auth" //change 
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Auth from './pages/auth'
