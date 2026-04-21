@@ -1,8 +1,8 @@
 import React from 'react'
-import Auth from "./pages/Auth" //change 
+
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
-import Auth from './pages/auth'
+import Auth from './pages/Auth'
 import { useEffect } from 'react'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
