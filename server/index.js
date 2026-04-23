@@ -31,6 +31,13 @@
 
 
 
+
+
+
+
+
+
+
 import express from "express"
 import dotenv from "dotenv"
 import connectDb from "./config/connectDb.js"
@@ -50,7 +57,7 @@ const app = express()
 app.use(cors({
     origin: "*",   // temporary (production me change karna)
     credentials: true
-}))
+})) 
 
 app.use(express.json())
 app.use(cookieParser())
