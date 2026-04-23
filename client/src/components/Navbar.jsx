@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { motion } from "motion/react"
 import { BsRobot, BsCoin } from "react-icons/bs";
 import { HiOutlineLogout } from "react-icons/hi";
-import { FaUserAstronaut } from "react-icons/fa";
+import { FaUserAstronaut, FaShieldAlt } from "react-icons/fa";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -88,7 +88,12 @@ function Navbar() {
                             <p className='text-md text-blue-500 font-medium mb-1'>{userData?.name}</p>
 
                             <button onClick={()=>navigate("/history")} className='w-full text-left text-sm py-2 hover:text-black text-gray-600'>InterView History</button>
-                            <button onClick={handleLogout} 
+                            {userData?.role === "admin" && (
+                                <button onClick={()=>navigate("/admin")} className='w-full text-left text-sm py-2 hover:text-black text-purple-600 flex items-center gap-2'>
+                                    <FaShieldAlt size={14}/> Admin Panel
+                                </button>
+                            )}
+                            <button onClick={handleLogout}
                             className='w-full text-left text-sm py-2 flex items-center gap-2 text-red-500'>
                                 <HiOutlineLogout size={16}/>
                                 Logout</button>

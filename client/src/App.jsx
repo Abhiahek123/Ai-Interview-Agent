@@ -11,6 +11,7 @@ import InterviewPage from './pages/InterviewPage'
 import InterviewHistory from './pages/InterviewHistory'
 import Pricing from './pages/Pricing'
 import InterviewReport from './pages/InterviewReport'
+import AdminDashboard from './pages/AdminDashboard'
 
 export const ServerUrl  = "https://ai-interview-agent-cdfe.onrender.com"
 
@@ -44,9 +45,7 @@ function App() {
       <Route path='/history' element={<InterviewHistory/>}/>
       <Route path='/pricing' element={<Pricing/>}/>
       <Route path='/report/:id' element={<InterviewReport/>}/>
-
-
-
+      <Route path='/admin' element={<AdminDashboard/>}/>
     </Routes>
   )
 }
