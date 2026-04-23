@@ -3,7 +3,7 @@ import { FaArrowLeft, FaCheckCircle } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import { motion } from "motion/react";
 import axios from 'axios';
-import { ServerUrl } from '../App';
+import { ServerUrl, getAuthHeaders } from '../App';
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../redux/userSlice';
 function Pricing() {
@@ -70,7 +70,7 @@ function Pricing() {
         planId: plan.id,
         amount: amount,
         credits: plan.credits,
-      },{withCredentials:true})
+      },{ headers: getAuthHeaders() })
       
 
       const options = {
@@ -82,7 +82,7 @@ function Pricing() {
       order_id: result.data.id,
 
       handler:async function (response) {
-        const verifypay = await axios.post(ServerUrl + "/api/payment/verify" ,response , {withCredentials:true})
+        const verifypay = await axios.post(ServerUrl + "/api/payment/verify" ,response , { headers: getAuthHeaders() })
         dispatch(setUserData(verifypay.data.user))
 
           alert("Payment Successful 🎉 Credits Added!");

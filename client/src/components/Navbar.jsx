@@ -7,7 +7,7 @@ import { FaUserAstronaut } from "react-icons/fa";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { ServerUrl } from '../App';
+import { ServerUrl, getAuthHeaders } from '../App';
 import { setUserData } from '../redux/userSlice';
 import AuthModel from './AuthModel';
 function Navbar() {
@@ -20,7 +20,8 @@ function Navbar() {
 
     const handleLogout = async () => {
         try {
-            await axios.get(ServerUrl + "/api/auth/logout" , {withCredentials:true})
+            await axios.get(ServerUrl + "/api/auth/logout" , { headers: getAuthHeaders() })
+            localStorage.removeItem("token");
             dispatch(setUserData(null))
             setShowCreditPopup(false)
             setShowUserPopup(false)

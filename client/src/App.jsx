@@ -14,13 +14,19 @@ import InterviewReport from './pages/InterviewReport'
 
 export const ServerUrl  = "https://ai-interview-agent-cdfe.onrender.com"
 
+// Helper function to get auth headers
+export const getAuthHeaders = () => {
+  const token = localStorage.getItem("token");
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
 function App() {
 
   const dispatch = useDispatch()
   useEffect(()=>{
     const getUser = async () => {
       try {
-        const result = await axios.get(ServerUrl + "/api/user/current-user", {withCredentials:true})
+        const result = await axios.get(ServerUrl + "/api/user/current-user", { headers: getAuthHeaders() })
         dispatch(setUserData(result.data))
       } catch (error) {
         console.log(error)
