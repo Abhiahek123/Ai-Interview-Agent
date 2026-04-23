@@ -55,7 +55,7 @@ const app = express()
 
 // ✅ FIX 1: CORS update
 app.use(cors({
-    origin: "*",   // temporary (production me change karna)
+    origin: "https://ai-interview-agent-eta.vercel.app/",   // temporary (production me change karna)
     credentials: true
 })) 
 
