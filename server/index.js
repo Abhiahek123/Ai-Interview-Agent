@@ -1,88 +1,60 @@
-// import express from "express"
-// import dotenv from "dotenv"
-// import connectDb from "./config/connectDb.js"
-// import cookieParser from "cookie-parser"
-// dotenv.config()
-// import cors from "cors"
-// import authRouter from "./routes/auth.route.js"
-// import userRouter from "./routes/user.route.js"
-// import interviewRouter from "./routes/interview.route.js"
-// import paymentRouter from "./routes/payment.route.js"
+import express from "express";
+import dotenv from "dotenv";
+import connectDb from "./config/connectDb.js";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 
-// const app = express()
-// app.use(cors({
-//     origin:"http://localhost:5173",
-//     credentials:true
-// }))
+import authRouter from "./routes/auth.route.js";
+import userRouter from "./routes/user.route.js";
+import interviewRouter from "./routes/interview.route.js";
+import paymentRouter from "./routes/payment.route.js";
 
-// app.use(express.json())
-// app.use(cookieParser())
+dotenv.config();
 
-// app.use("/api/auth" , authRouter)
-// app.use("/api/user", userRouter)
-// app.use("/api/interview" , interviewRouter)
-// app.use("/api/payment" , paymentRouter)
+const app = express();
 
-// const PORT = process.env.PORT || 6000
-// app.listen(PORT , ()=>{
-//     console.log(`Server running on port ${PORT}`)
-//     connectDb()
-// })
+// ✅ FINAL CORS FIX (NO trailing slash + supports local & production)
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://ai-interview-agent-eta.vercel.app"
+];
 
-
-
-
-
-
-
-
-
-
-import express from "express"
-import dotenv from "dotenv"
-import connectDb from "./config/connectDb.js"
-import cookieParser from "cookie-parser"
-import cors from "cors"
-
-import authRouter from "./routes/auth.route.js"
-import userRouter from "./routes/user.route.js"
-import interviewRouter from "./routes/interview.route.js"
-import paymentRouter from "./routes/payment.route.js"
-
-dotenv.config()
-
-const app = express()
-
-// ✅ FIX 1: CORS update
 app.use(cors({
-    origin: "https://ai-interview-agent-eta.vercel.app/",   // temporary (production me change karna)
-    credentials: true
-})) 
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
 
-app.use(express.json())
-app.use(cookieParser())
+// Middlewares
+app.use(express.json());
+app.use(cookieParser());
 
-// ✅ FIX 2: Root route add (browser error solve)
+// Root route
 app.get("/", (req, res) => {
-    res.send("AI Interview API Running 🚀")
-})
+  res.send("AI Interview API Running 🚀");
+});
 
-// ✅ FIX 3: Test route (debugging ke liye)
+// Test route
 app.get("/test", (req, res) => {
-    res.send("Backend working ✅")
-})
+  res.send("Backend working ✅");
+});
 
 // Routes
-app.use("/api/auth", authRouter)
-app.use("/api/user", userRouter)
-app.use("/api/interview", interviewRouter)
-app.use("/api/payment", paymentRouter)
+app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
+app.use("/api/interview", interviewRouter);
+app.use("/api/payment", paymentRouter);
 
-const PORT = process.env.PORT || 6000
+const PORT = process.env.PORT || 6000;
 
-// ✅ FIX 4: DB connect before listen (better practice)
+// DB connect and start server
 connectDb().then(() => {
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`)
-    })
-})
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+});
