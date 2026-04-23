@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from "axios"
 import { ServerUrl, getAuthHeaders } from '../App'
-import { FaArrowLeft } from 'react-icons/fa'
+import { FaArrowLeft, FaTrash } from 'react-icons/fa'
 function InterviewHistory() {
     const [interviews, setInterviews] = useState([])
     const navigate = useNavigate()
@@ -23,6 +23,18 @@ function InterviewHistory() {
         getMyInterviews()
 
     }, [])
+
+    const handleDelete = async (e, id) => {
+        e.stopPropagation();
+        if (!confirm("Are you sure you want to delete this interview?")) return;
+
+        try {
+            await axios.delete(ServerUrl + "/api/interview/" + id, { headers: getAuthHeaders() });
+            setInterviews(interviews.filter(item => item._id !== id));
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
     return (
@@ -97,6 +109,15 @@ function InterviewHistory() {
                                         >
                                             {item.status}
                                         </span>
+
+                                        {/* DELETE BUTTON */}
+                                        <button
+                                            onClick={(e) => handleDelete(e, item._id)}
+                                            className='p-2 text-red-500 hover:bg-red-50 rounded-full transition'
+                                            title="Delete Interview"
+                                        >
+                                            <FaTrash size={16} />
+                                        </button>
 
 
                                     </div>

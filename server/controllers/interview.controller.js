@@ -410,6 +410,20 @@ export const getMyInterviews = async (req,res) => {
   }
 }
 
+export const deleteInterview = async (req, res) => {
+  try {
+    const interview = await Interview.findByIdAndDelete(req.params.id);
+
+    if (!interview) {
+      return res.status(404).json({ message: "Interview not found" });
+    }
+
+    return res.status(200).json({ message: "Interview deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: `Failed to delete interview ${error}` });
+  }
+}
+
 export const getInterviewReport = async (req,res) => {
   try {
     const interview = await Interview.findById(req.params.id)
