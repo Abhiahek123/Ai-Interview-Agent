@@ -16,7 +16,8 @@ const app = express();
 // ✅ FINAL CORS FIX (NO trailing slash + supports local & production)
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://ai-interview-agent-eta.vercel.app"
+  "https://ai-interview-agent-eta.vercel.app",
+  "https://ai-interview-agent-cdfe.onrender.com"
 ];
 
 app.use(cors({
